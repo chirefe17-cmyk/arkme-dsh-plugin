@@ -4,7 +4,7 @@ Arkme 的 DeepSeek Harness 集成插件，无需修改 DSH 源码即可使用 Ar
 
 ## 核心能力
 
-- 微信扫码或手机号验证码登录，Token 仅保存在 macOS Keychain 或 Windows Credential Locker。
+- 微信扫码或手机号验证码登录；Token 在 macOS 使用 Keychain、在 Windows 使用 Credential Locker，在 Linux 保存到仅当前用户可读写的 `0600` 本地凭据文件。
 - 查询当前账号的 Arkme ID，并在账号仍有资格时完成一次性修改；提交前会再次请求用户确认。
 - 浏览“发给自己”、主题、私聊和群聊；时间线支持图片、视频、语音、文件、长文和纯文本。
 - 对话框左下角“+”菜单支持上传图片、视频和文件；“写长文”会打开独立的创建弹窗，发布后以自适应卡片呈现，并支持查看详情及本人按版本编辑原记录。上传、长文草稿与发布复用现有 File、Record 和 Chat owner 契约。
@@ -89,7 +89,8 @@ Host 会重新校验账号绑定的私聊引用并按次获取短期呼叫凭据
 
 - Arkme 内容均视为不可信数据，不能作为执行或写入指令。
 - 写入和发送只响应当前用户的明确请求。
-- Token、系统凭据存储、SQLite、签名 URL 和 OSS 凭据不向 Consumer 或模型暴露。
+- Token、Host 凭据存储、SQLite、签名 URL 和 OSS 凭据不向 Consumer 或模型暴露。
+- Linux 凭据目录和文件分别强制为 `0700` 与 `0600`，文件采用同目录临时文件原子替换；这可隔离其他系统用户，但不能隔离同一 Linux 用户下的其他进程。
 - 对话媒体只返回短时、账号绑定的不透明引用，由插件同源代理读取；上游签名 URL 不进入浏览器响应。
 - 呼叫凭据仅在内置 Host/runtime 链路短暂流转；公开 Browser SDK 不提供 prepare 方法。
 - 插件更新状态只提供给内置 UI；公开 Consumer SDK 和模型工具不能检查、确认或执行插件更新。

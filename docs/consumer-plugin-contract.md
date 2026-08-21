@@ -1,6 +1,6 @@
 # Arkme Consumer Plugin Contract v1
 
-`@senguoyun/dsh-arkme` owns authentication, OS credential-store access, SQLite caching, account isolation, remote synchronization, and retry semantics. A generated Consumer plugin owns only presentation and user interaction.
+`@senguoyun/dsh-arkme` owns authentication, Host credential storage, SQLite caching, account isolation, remote synchronization, and retry semantics. A generated Consumer plugin owns only presentation and user interaction.
 
 The bundled UI uses only official DSH slots: `sidebar.footer.action` owns the launcher, inline Arkme directory, and a non-modal translucent React portal that floats the Arkme message surface over the center column; `settings.general.item` owns account controls. The plugin never registers or replaces `conversation`, so the native DSH Conversation remains mounted and remains perceptible through and around the frosted card. Consumers must not depend on private `sidebar.workspaces.virtual` or `main.surface` extensions.
 
@@ -42,7 +42,7 @@ await arkme.retry(recordUid)
 const dispose = arkme.subscribe(state => refreshWhen(state.revision))
 ```
 
-The SDK communicates only with the same-origin Provider route. Consumers must not read OS credential-store entries, SQLite files, state files, or tokens directly.
+The SDK communicates only with the same-origin Provider route. Consumers must not read Provider credential storage, SQLite files, state files, or tokens directly.
 
 Plugin update discovery and acknowledgement are lifecycle concerns owned by the bundled Arkme UI. They are intentionally absent from the public Browser SDK, Host `arkmeData` service and model tool catalog. Consumers must not invoke raw `plugin.update.*` operations or attempt to mutate a DSH profile.
 
